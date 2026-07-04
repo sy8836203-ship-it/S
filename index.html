@@ -23,6 +23,8 @@
 
   *{margin:0;padding:0;box-sizing:border-box;}
 
+  html,body{height:auto;min-height:100%;}
+
   body{
     min-height:100vh;
     display:flex;
@@ -30,9 +32,11 @@
     align-items:center;
     font-family:var(--font-body);
     background:radial-gradient(circle at 20% 20%, #fff8ef 0%, var(--cream) 45%, #f3e3d8 100%);
-    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:auto;
     position:relative;
     color:var(--ink);
+    padding:40px 0;
   }
 
   /* ambient floating petals */
@@ -280,14 +284,6 @@
   }
   @keyframes drawLine{ to{stroke-dashoffset:0;} }
 
-  .layer-mark{
-    font-family:var(--font-ui);
-    font-size:.72em;
-    letter-spacing:2.5px;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:6px;
-  }
   h1.letter-title{
     font-family:var(--font-display);
     font-weight:700;
@@ -473,7 +469,6 @@
   <div class="layer" data-layer="1">
     <div class="card">
       <svg class="flourish" viewBox="0 0 120 24"><path d="M2 12 C 30 2, 40 22, 60 12 S 90 2, 118 12"/></svg>
-      <p class="layer-mark">Page One</p>
       <h1 class="letter-title">You're Most Welcome, Sneha</h1>
       <div class="lines" id="lines-1">
         <p style="animation-delay:.1s">Welcome to this little letter, made only for you.</p>
@@ -495,7 +490,6 @@
   <div class="layer" data-layer="2">
     <div class="card">
       <svg class="flourish" viewBox="0 0 120 24"><path d="M2 12 C 30 2, 40 22, 60 12 S 90 2, 118 12"/></svg>
-      <p class="layer-mark">Page Two</p>
       <h1 class="letter-title">One Question, Sneha...</h1>
 
       <div class="question-part" id="question-part">
@@ -519,7 +513,6 @@
   <div class="layer" data-layer="3">
     <div class="card">
       <svg class="flourish" viewBox="0 0 120 24"><path d="M2 12 C 30 2, 40 22, 60 12 S 90 2, 118 12"/></svg>
-      <p class="layer-mark">Page Three</p>
       <h1 class="letter-title">Dear Sneha,</h1>
       <div class="lines" id="lines-3">
         <p style="animation-delay:.1s">Every moment with you is special. Your smile, your laugh, your presence
@@ -542,7 +535,6 @@
   <div class="layer" data-layer="4">
     <div class="card">
       <svg class="flourish" viewBox="0 0 120 24"><path d="M2 12 C 30 2, 40 22, 60 12 S 90 2, 118 12"/></svg>
-      <p class="layer-mark">Page Four</p>
       <h1 class="letter-title">Thank You, Sneha</h1>
       <div class="lines" id="lines-4">
         <p style="animation-delay:.1s">Thank you for staying with this letter till the very last page.</p>
@@ -613,6 +605,7 @@
       path.style.animation = null;
     });
     updateProgress(n);
+    window.scrollTo({top:0, behavior:'smooth'});
   }
 
   function restart(){
@@ -622,6 +615,7 @@
     document.getElementById('question-part').style.display='block';
     document.getElementById('success-part').classList.remove('show');
     updateProgress(0);
+    window.scrollTo({top:0, behavior:'smooth'});
   }
 
   /* Layer 2 interactions */
