@@ -354,8 +354,8 @@
   .no-btn{
     background:linear-gradient(135deg,#cfc2b0,#b9a888);
     color:var(--wine-deep);
-    position:absolute;
-    transition:transform .18s ease;
+    transition:left .2s ease, top .2s ease;
+    z-index:50;
   }
   .success-part{display:none;}
   .success-part.show{display:block;animation:bounceIn .6s cubic-bezier(.68,-.55,.265,1.55);}
@@ -614,6 +614,11 @@
     envelopeWrap.classList.remove('hidden');
     document.getElementById('question-part').style.display='block';
     document.getElementById('success-part').classList.remove('show');
+    noBtn.style.position = '';
+    noBtn.style.left = '';
+    noBtn.style.top = '';
+    noBtn.style.transform = '';
+    noIsFixed = false;
     updateProgress(0);
     window.scrollTo({top:0, behavior:'smooth'});
   }
@@ -630,10 +635,37 @@
     createHeartRain();
   });
 
+  let noIsFixed = false;
+
   function dodgeButton(){
-    const randomX = (Math.random()-0.5)*260;
-    const randomY = (Math.random()-0.5)*140;
-    noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    const yesRect = yesBtn.getBoundingClientRect();
+    const btnW = noBtn.offsetWidth || 140;
+    const btnH = noBtn.offsetHeight || 52;
+    const margin = 30; // safety gap around Yes button
+    const pad = 16; // keep inside viewport
+    const maxX = Math.max(pad, window.innerWidth - btnW - pad);
+    const maxY = Math.max(pad, window.innerHeight - btnH - pad);
+
+    let x, y, tries = 0;
+    do {
+      x = pad + Math.random() * (maxX - pad);
+      y = pad + Math.random() * (maxY - pad);
+      tries++;
+    } while (
+      tries < 40 &&
+      x < yesRect.right + margin &&
+      x + btnW > yesRect.left - margin &&
+      y < yesRect.bottom + margin &&
+      y + btnH > yesRect.top - margin
+    );
+
+    if(!noIsFixed){
+      noBtn.style.position = 'fixed';
+      noIsFixed = true;
+    }
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    noBtn.style.transform = 'none';
   }
   noBtn.addEventListener('mouseover', dodgeButton);
   noBtn.addEventListener('click', e => { e.preventDefault(); dodgeButton(); });
